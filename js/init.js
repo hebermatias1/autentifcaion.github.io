@@ -1,3 +1,4 @@
+// @ts-ignore
 const firebaseConfig = {
     apiKey: "AIzaSyB0hg_uy5xD8dTcuemDYbNWT-In7DDcWsQ",
     authDomain: "autenfi.firebaseapp.com",
