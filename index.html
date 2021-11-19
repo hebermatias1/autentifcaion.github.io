@@ -28,7 +28,9 @@
     <button type="button" onclick="terminaSesión()">Terminar Sesión</button>
     <footer>Copyright &copy; 2021 Ricardo Armando Machorro Reyes.</footer>
     <script>
-      //@ts-check
+      // @ts-check
+      /** Nombre de usuario atenticado por Firebase. */
+      let usuario = "";
       /** Conexión al sistema de autenticación de Firebase. */
       // @ts-ignore
       const auth = firebase.auth();
@@ -43,23 +45,21 @@
       auth.onAuthStateChanged(
         /** Recibe las características del usuario o null si no ha iniciado
          * sesión. */
-        usuarioAuth => {
+        async usuarioAuth => {
           if (usuarioAuth && usuarioAuth.email) {
             // Usuario aceptado.
-            // @ts-ignore Muestra el email registrado en Google.
-            email.value = usuarioAuth.email;
-            // @ts-ignore Muestra el nombre registrado en Google.
-            nombre.value = usuarioAuth.displayName;
-            // @ts-ignore Muestra el avatar registrado en Google.
-            avatar.src = usuarioAuth.photoURL;
+            usuario = usuarioAuth.email;
+            // Muestra los mensajes del chat.
+            muestraMensajes();
           } else {
             // No ha iniciado sesión. Pide datos para iniciar sesión.
-            auth.signInWithRedirect(provider);
+            await auth.signInWithRedirect(provider);
           }
         },
         // Función que se invoca si hay un error al verificar el usuario.
         procesaError
       );
+      /** Conexión a la base de datos. */
       /** Termina la sesión. */
       async function terminaSesión() {
         try {
